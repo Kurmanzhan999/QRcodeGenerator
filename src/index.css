@@ -1,0 +1,51 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+body {
+  text-align: center;
+  background-color: #162034;
+  color: #fff;
+}
+
+.app {
+  padding: 2rem 1rem;
+}
+h1 {
+  font-size: 2.5rem;
+  margin-bottom: 1rem;
+}
+input {
+  padding: 0.9rem;
+  align-items: center;
+  width: 100%;
+  max-width: 300px;
+  border-radius: 0.5rem;
+  margin-right: 1rem;
+  outline: none;
+  font-size: 1rem;
+}
+button,
+a {
+  appearance: none;
+  color: #2bcb4b;
+  border: none;
+  background: none;
+  font-size: 1.4rem;
+  cursor: pointer;
+  text-decoration: none;
+}
+
+img {
+  display: block;
+  width: 100%;
+  max-width: 420px;
+  margin: 2rem auto;
+}
+button {
+  border-radius: 1.5rem;
+  background-color: #2bcb4b;
+  color: white;
+  padding: 0.4rem;
+}

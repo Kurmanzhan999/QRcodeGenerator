@@ -1,58 +1,44 @@
-import axios from 'axios';
-import React, { useEffect, useState } from 'react';
-import './App.css';
-import Coin from './coin/Coin';
+import React from 'react';
+import { useState } from 'react';
+import QRCode from 'qrcode';
 
 function App() {
-  const [coins, setCoins] = useState([]);
-  const [search, setSearch] = useState('');
-  useEffect(() => {
-    axios
-      .get(
-        'https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&order=market_cap_desc&per_page=100&page=1&sparkline=false'
-      )
-      .then((res) => {
-        setCoins(res.data);
-        console.log(res.data);
-      })
-      .catch((error) => console.log('error'));
-  }, []);
+  const [url, setUrl] = useState();
+  const [qrCode, setrqrCode] = useState();
 
-  const handleChange = (e) => {
-    setSearch(e.target.value);
+  const generateqrCode = () => {
+    QRCode.toDataURL(
+      url,
+      {
+        color: {
+          dark: '#335383ff',
+        },
+      },
+      (err, url) => {
+        if (err) return console.error(err);
+        console.log(url);
+        setrqrCode(url);
+      }
+    );
   };
-  const filteredCoin = coins.filter((coin) =>
-    coin.name.toLowerCase().includes(search.toLowerCase())
-  );
-
   return (
-    <div className="coin-app">
-      <div className="coin-search">
-        <h1 className="coin-text">Search a currency</h1>
-        <form>
-          <input
-            type="text"
-            placeholder="search"
-            className="coin-input"
-            onChange={handleChange}
-          />
-        </form>
-      </div>
-
-      {filteredCoin.map((coin) => {
-        return (
-          <Coin
-            key={coin.id}
-            name={coin.name}
-            image={coin.image}
-            symbol={coin.symbol}
-            volume={coin.total_volume}
-            price={coin.current_price}
-            priceChange={coin.price_change_percentage_24h}
-            marketcap={coin.market_cap}
-          />
-        );
-      })}
+    <div className="app">
+      <h1>QR Code Generator</h1>
+      <input
+        type="text"
+        placeholder="e.g http://google.com"
+        value={url}
+        onChange={(e) => setUrl(e.target.value)}
+      />
+      <button onClick={generateqrCode}>Generate</button>
+      {qrCode && (
+        <>
+          <img src={qrCode} alt="qrcode" />
+          <a href={qrCode} download="qrcode.png">
+            Download
+          </a>
+        </>
+      )}
     </div>
   );
 }
